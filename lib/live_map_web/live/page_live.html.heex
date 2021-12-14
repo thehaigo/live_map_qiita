@@ -1,6 +1,28 @@
 <div class="row">
   <div class="column column-20">
     <h1>Show Map</h1>
+    <form phx-submit="search">
+      <input  type="text" name="keyword" value={@text}>
+      <button type="submit">Search</button>
+    </form>
+    <%= for spot <- @search_result do %>
+      <div class="row">
+        <img src={spot["icon"]} width="16px" height="16px" />
+        <span><%= spot["name"] %></span>
+      </div>
+      <div class="row">
+        <%= spot["address"] %>
+      </div>
+      <div class="row">
+        <button
+          class="column"
+          phx-click={JS.push("add_marker", value: %{location: spot["location"]})}
+        >
+          add marker
+        </button>
+      </div>
+      <br />
+    <% end%>
   </div>
   <div class="column column-80">
     <div id="googleMap" phx-update="ignore" phx-hook="Map">
